@@ -559,8 +559,11 @@ static inline void allpassm_make(sf_rv_allpassm_st *allpassm, int size, int msiz
 }
 
 static inline float allpassm_step(sf_rv_allpassm_st *allpassm, float v, float mod, float fbmod){
+	
 	float mfeedback = allpassm->feedback + fbmod;
+
 	mod = (mod + 1.0f) * (float)allpassm->msize;
+	
 	float floormod = floorf(mod);
 	float mfrac = 1.0f - mod + floormod;
 	int rpos1 = allpassm->rpos - (int)floormod;
