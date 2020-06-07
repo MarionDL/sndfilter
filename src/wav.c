@@ -186,13 +186,13 @@ bool sf_wavsave(sf_snd snd, const char *file){
 		// once again, int16 samples range from -32768 to 32767, so we need to scale the floating
 		// point sample by a different factor depending on whether it's negative
 		if (L < 0)
-			Lv = (int16_t)(L * 32768.0f);
+			Lv = (int16_t)(L * 32768);
 		else
-			Lv = (int16_t)(L * 32767.0f);
+			Lv = (int16_t)(L * 32767);
 		if (R < 0)
-			Rv = (int16_t)(R * 32768.0f);
+			Rv = (int16_t)(R * 32768);
 		else
-			Rv = (int16_t)(R * 32767.0f);
+			Rv = (int16_t)(R * 32767);
 		write_u16le(fp, (uint16_t)Lv);
 		write_u16le(fp, (uint16_t)Rv);
 	}

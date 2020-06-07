@@ -128,7 +128,7 @@ Pour conclure, j'ai apprécié effectuer ce mini-projet : il était intéressant
 
 Même si je n'ai pas beaucoup modifié le code existant, j'ai pu apprendre des choses, notamment le fait que choisir le niveau d'optimisation du compilateur au maximum n'est pas toujours adapté à ce que l'on veut obtenir.
 
-La fin du semestre étant chargée, je n'ai pas pu me pencher en détail sur tout le code à ma disposition, qui semble très riche et qui traite une grande quantité de données. Il est sûrement possible d'améliorer des choses que le compilateur ne peut pas faire, notamment utiliser des instructions SIMD ou encore des outils mis à disposition par OpenMP.
+La fin du semestre étant chargée, je n'ai pas pu me pencher en détail sur tout le code à ma disposition, qui semble très riche et qui traite une grande quantité de données. Il est sûrement possible d'améliorer des choses que le compilateur ne peut pas faire, notamment utiliser des instructions SIMD, ou encore faire du multithreading avec OpenMP, mais cela nécessiterait une analyse détaillée du code, qui reste très dense.
 
 ## Sources
 
