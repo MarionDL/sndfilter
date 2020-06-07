@@ -1,4 +1,4 @@
-# HPC - Projet 1 : Optimisation du logiciel Sndfilter
+# HPC - Projet 1 : Optimisation du logiciel sndfilter
 
 Auteur : Marion Dutu Launay
 
@@ -6,7 +6,7 @@ Date : 7 juin 2020
 
 ## Description du logiciel
 
-Sndfilter est un logiciel open-source de Sean Connelly disponible sur GitHub (lien dans les Sources). Il met à disposition différents filtres sonores, implémentés à l'aide du langage C, que l'on peut appliquer sur un fichier au format `.wav` de notre choix. Voici la liste des filtres qui sont proposés :
+Sndfilter est un logiciel open-source développé par Sean Connelly, dont les sources sont disponibles sur GitHub (lien dans les Sources). Il met à disposition différents filtres sonores, implémentés en C, que l'on peut appliquer sur un fichier au format `.wav` de notre choix. Voici la liste des filtres qui sont proposés :
 
 - réverbération
 - compresseur
@@ -20,9 +20,9 @@ Chaque filtre s'utilise avec différents paramètres propres à chacun (fréquen
 
 ## Motivations
 
-Pour ce premier travail personnel d'HPC, mon but était de trouver un projet écrit en langage C, car c'est celui que je connais le mieux et que nous avons utilisé en cours d'HPC. Ainsi, j'ai plus de chances de pouvoir apporter ma contribution au projet existant sans trop de difficultés.
+Pour ce premier travail personnel d'HPC, mon but était de trouver un projet écrit en langage C, car c'est le langage que je connais le mieux et que nous avons utilisé en cours d'HPC. Ainsi, j'ai plus de chances de pouvoir apporter ma contribution au projet existant sans trop de difficultés.
 
-Je souhaitais également travailler sur un projet ayant une petite renommée afin de rendre le travail plus stimulant, et j'ai donc cherché des dépôts publics sur GitHub avec différents mots-clés, triés par ordre décroissant du nombre de Stars (190 pour le mien !). En laboratoire de Systèmes audio-vidéo au semestre précédent, je m'étais bien amusée à appliquer des filtres sonores sur des musiques, c'est pourquoi mon choix s'est porté sur ce projet. De plus, avec ce tyle de logiciel, la procédure de vérification est courte : il est facile et rapide de se rendre compte du résultat produit par de potentielles améliorations, et de vérifier que l'algorithme est toujours fonctionnel en écoutant le fichier audio en sortie.
+Je souhaitais également travailler sur un projet ayant une petite renommée afin de rendre le travail plus stimulant, et j'ai donc cherché des dépôts publics sur GitHub avec différents mots-clés, triés par ordre décroissant du nombre de Stars (190 pour le mien !). En laboratoire de Systèmes audio-vidéo au semestre précédent, cela m'avait plu d'appliquer des filtres sonores sur des musiques, c'est pourquoi mon choix s'est porté sur ce projet. De plus, avec ce type de logiciel, la procédure de vérification est courte : il est facile et rapide de se rendre compte du résultat produit par de potentielles améliorations, et de vérifier que l'algorithme est toujours fonctionnel en écoutant le fichier audio en sortie.
 
 Après avoir installé et testé le logiciel en utilisant quelques filtres sonores sur une musique libre de droits, j'ai pu observer que l'application des filtres sur les données audio prenait un temps considérable. Ainsi, bien qu'ayant une piètre connaissance de certains algorithmes utilisés dans le projet, j'ai fait l'hypothèse que des améliorations de performances étaient possibles en se servant des différents outils vus en cours, le programme traitant une certaine quantité de données selon la longueur de la musique (3 min 35 pour celle que j'utilise).
 
@@ -36,7 +36,7 @@ Les arguments passés à l'exécutable diffèrent selon le type de filtre que l'
 
 Tout au long du processus de benchmarking et d'améliorations, j'ai utilisé le même fichier comme d'entrée (lien dans les Sources).
 
-Comme il y a de nombreux filtres mis à disposition, j'ai préféré me concentrer sur deux d'entre eux pour le benchmarking, à savoir la réverbération et le compresseur. Je les ai utilisés avec des valeurs un peu arbitraires, pour autant que l'effet s'entende en sortie sans faire souffrir les tympans de l'auditeur : `0.5 largehall1` pour `reverb` et `20 -50 40 20 0 0` pour `compressor` (à écouter quand même avec un volume plutôt bas :) ). Le premier est plutôt long à s'exécuter sur le fichier de référence (plus de 20 secondes), le second plutôt rapide (moins de 5 secondes).
+Comme il y a de nombreux filtres mis à disposition, j'ai préféré me concentrer sur deux d'entre eux pour le benchmarking, à savoir la réverbération et le compresseur. Je les ai utilisés avec des valeurs un peu arbitraires, pour autant que l'effet s'entende en sortie sans faire souffrir les tympans de l'auditeur : `0.5 largehall1` pour `reverb` et `20 -50 40 20 0 0` pour `compressor` (à écouter quand même avec un volume plutôt bas :) ). Le premier est assez long à s'exécuter sur le fichier de référence (plus de 20 secondes), le second plutôt rapide (moins de 5 secondes).
 
 Afin de benchmarker le programme de base, j'ai utilisé l'outil de profiling `perf stat` qui me permet de récolter quelques informations de référence basiques sur les performances actuelles du logiciel. Voici un tableau récapitulatif de cette étape :
 
@@ -49,7 +49,7 @@ Afin de benchmarker le programme de base, j'ai utilisé l'outil de profiling `pe
 
 Ensuite, j'ai utilisé `perf record` sur ces mêmes évènements afin de cibler les opérations problématiques. J'ai ajouté au script `build` l'option `-g` afin de visualiser le code C et le code assembleur résultant avec `perf report`, pour analyser plus efficacement le code. Je peux ainsi repérer dans le code assembleur certaines lignes que `perf` a surligné en rouge, et je peux retrouver ces opérations dans le code C pour lister ce qui pourrait être amélioré.
 
-Je ne me suis intéressée qu'à l'annotation de l'event `cpu-clock`, car cela offrait déjà beaucoup d'informations, et c'est la métrique que je souhaite améliorer.
+Je ne me suis intéressée qu'à l'annotation de l'event `cpu-clock`, car cela offrait déjà beaucoup d'informations, et la métrique que je souhaite améliorer est le temps d'exécution du programme.
 
 Voici un classement des fonctions gourmandes en temps d'exécution pour le filtre `compressor` :
 
